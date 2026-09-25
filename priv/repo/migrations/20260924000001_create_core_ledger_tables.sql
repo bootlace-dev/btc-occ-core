@@ -32,7 +32,7 @@ CREATE TABLE epoch_batches (
 
 -- 3. Ledger Transactions (Anchor to Monotonic Batch)
 CREATE TABLE ledger_transactions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     epoch_id BIGINT NOT NULL REFERENCES epoch_batches(epoch_id) ON DELETE RESTRICT,
     reference_id VARCHAR(128) NOT NULL UNIQUE,
     description TEXT NOT NULL,
@@ -43,8 +43,8 @@ CREATE INDEX idx_transactions_epoch_id ON ledger_transactions(epoch_id);
 
 -- 4. Append-Only Ledger Entries
 CREATE TABLE ledger_entries (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    transaction_id UUID NOT NULL REFERENCES ledger_transactions(id) ON DELETE RESTRICT,
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    transaction_id BIGINT NOT NULL REFERENCES ledger_transactions(id) ON DELETE RESTRICT,
     account_id UUID NOT NULL,
     currency currency_code NOT NULL,
     direction entry_direction NOT NULL,

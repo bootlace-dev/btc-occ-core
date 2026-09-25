@@ -3,7 +3,9 @@ defmodule OccLedger.Application do
 
   def start(_type, _args) do
     children = [
-      OccLedger.Repo
+      OccLedger.Repo,
+      OccLedger.DBWriter,
+      OccLedger.BatchCoordinator
     ]
 
     opts = [strategy: :one_for_one, name: OccLedger.Supervisor]

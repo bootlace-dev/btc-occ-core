@@ -67,6 +67,10 @@ defmodule OccLedger.LoadGenerator do
     IO.puts("Starting Zipfian Load Generator against Naive Baseline...")
     {omnibus, _treasury, _fee, customers} = seed()
 
+    # CRITICAL FIX: Restart BatchCoordinator to hydrate new genesis balances
+    Supervisor.terminate_child(OccLedger.Supervisor, OccLedger.BatchCoordinator)
+    Supervisor.restart_child(OccLedger.Supervisor, OccLedger.BatchCoordinator)
+
     # The load simulation: customers continuously withdrawing from the omnibus
     tasks = for _w <- 1..concurrency do
       Task.async(fn ->
@@ -76,9 +80,11 @@ defmodule OccLedger.LoadGenerator do
           
           # Withdrawal: Debit Customer, Credit Omnibus
           try do
-            BaselineProcessor.process_transfer(cust.id, omnibus.id, :BTC, 1000, ref_id)
+            :ok = OccLedger.BatchCoordinator.transfer(cust.id, omnibus.id, :BTC, 10, ref_id)
           rescue
-            _e -> :error 
+            e -> 
+              IO.inspect(e, label: "TRANSFER ERROR")
+              :error 
           end
         end
         :ok

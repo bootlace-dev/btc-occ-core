@@ -6,4 +6,4 @@ config :btc_occ_core, OccLedger.Repo,
   database: "occ_ledger_prod",
   hostname: "localhost",
   port: 5432,
-  pool_size: 10
+  pool_size: 50
