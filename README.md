@@ -6,6 +6,24 @@
 [![Regulatory Standard](https://img.shields.io/badge/OCC-12_CFR_Part_9-darkgreen.svg)](https://www.ecfr.gov/current/title-12/chapter-I/part-9)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+
+---
+
+### 🚀 Empirical Benchmark Milestone: 253,037 TPS on 4 vCPU
+
+The engine was benchmarked on a dedicated GCP VM (, 4 vCPU, 16GB RAM) using the **One-Hoss Shay Performance Protocol**, progressing from 1,058 TPS to **253,037.25 TPS** (**239.1x cumulative gain**).
+
+| Iteration / Milestone | Snapshot Name | Concurrency | Throughput (TPS) | Step Multiplier | Cumulative Gain | Primary Bottleneck & Resolution |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Snap 01 Baseline** |  | 10 | **1,058.18 TPS** | 1.00x | 1.0x | Synchronous SQL JSON deserialization & string casting |
+| **Snap 05 Sharded** |  | 200 | **23,535.92 TPS** | 2.57x | 22.2x | 16-shard  pool + Postgres 4GB  |
+| **Snap 07 Radical Innovations** |  | 200 | **59,607.04 TPS** | 2.45x | 56.3x | Direct lock-free  + 48B binary WAL + 4x  |
+| **Snap 08 Full-Stack Ultra** |  | 200 | **161,169.67 TPS** | 2.70x | 152.3x | OTP 25  + tuple lookups + worker micro-batching |
+| **Snap 10 OCC Atomic Engine** |  | 200 | **253,037.25 TPS** | **1.54x** | **239.1x** | **OCC 12 CFR § 12.3 Compliant Engine:** Decoupled Group Epoch Persistence + Lock-Free  Vector Array () + 48B Binary WAL |
+
+*See full empirical benchmarks, scaling summaries, and regulatory analysis in [docs/ONE_HOSS_SHAY_BENCHMARKS.md](docs/ONE_HOSS_SHAY_BENCHMARKS.md).*
+
+
 An open-source reference ledger engine engineered to bridge the high-concurrency impedance mismatch between **Erlang BEAM (Elixir)** and **PostgreSQL 16**, maintaining statutory fiduciary asset segregation and real-time double-entry zero-sum guarantees under 10,000+ RPS market volatility spikes.
 
 ---
