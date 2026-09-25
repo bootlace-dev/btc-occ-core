@@ -1,23 +1,2 @@
-# Ignore build artifacts
 _build/
 deps/
-*.beam
-.fetch
-
-# Environment & database
-.env
-.env.*
-!.env.example
-
-# Docker volume
-pgdata/
-
-# Python cache
-__pycache__/
-*.pyc
-
-# Editors
-.vscode/
-.idea/
-*.swp
-*~

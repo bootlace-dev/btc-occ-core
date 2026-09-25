@@ -1,0 +1,4 @@
+fs.file-max = 9223372036854775807
+net.core.somaxconn = 4096
+net.ipv4.tcp_tw_reuse = 2
+net.ipv4.tcp_tw_reuse_delay = 1000

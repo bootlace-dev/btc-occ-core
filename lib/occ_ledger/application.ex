@@ -1,12 +1,9 @@
 defmodule OccLedger.Application do
-  @moduledoc false
   use Application
 
-  @impl true
   def start(_type, _args) do
     children = [
-      OccLedger.BatchIngestCoordinator,
-      OccLedger.EpochSealer
+      OccLedger.Repo
     ]
 
     opts = [strategy: :one_for_one, name: OccLedger.Supervisor]
