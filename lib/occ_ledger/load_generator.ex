@@ -35,7 +35,7 @@ defmodule OccLedger.LoadGenerator do
     # We execute a single massive statement to fund everyone while satisfying the zero-sum trigger
     Repo.transaction(fn ->
       batch = %EpochBatch{batch_nonce: Ecto.UUID.generate(), tx_count: 1, entry_count: num_customers + 3, created_at: DateTime.utc_now() |> DateTime.truncate(:second)} |> Repo.insert!()
-      tx = %LedgerTransaction{epoch_id: batch.epoch_id, reference_id: "GENESIS_#{Ecto.UUID.generate()}", description: "Genesis Mint", created_at: DateTime.utc_now() |> DateTime.truncate(:second)} |> Repo.insert!()
+      tx = %LedgerTransaction{epoch_id: batch.id, reference_id: "GENESIS_#{Ecto.UUID.generate()}", description: "Genesis Mint", created_at: DateTime.utc_now() |> DateTime.truncate(:second)} |> Repo.insert!()
 
       now = DateTime.utc_now() |> DateTime.truncate(:second)
       
