@@ -1,7 +1,7 @@
 defmodule OccLedger.EpochBatch do
   use Ecto.Schema
 
-  @primary_key {:epoch_id, :id, autogenerate: true}
+  @primary_key {:epoch_id, :integer, autogenerate: false}
   schema "epoch_batches" do
     field :batch_nonce, Ecto.UUID
     field :tx_count, :integer

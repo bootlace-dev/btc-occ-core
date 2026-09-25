@@ -42,17 +42,17 @@ defmodule OccLedger.LoadGenerator do
       # Customer Credits
       {cust_entries, total_customer_sats} = Enum.map_reduce(customers, 0, fn c, acc ->
         amount = Enum.random(1_000_000..50_000_000)
-        entry = %{id: Ecto.UUID.generate(), transaction_id: tx.id, account_id: c.id, currency: :BTC, direction: :credit, amount: amount, created_at: now}
+        entry = %{transaction_id: tx.id, account_id: c.id, currency: :BTC, direction: :credit, amount: amount, created_at: now}
         {entry, acc + amount}
       end)
 
       # Omnibus Debit (matches customer credits)
-      omnibus_entry = %{id: Ecto.UUID.generate(), transaction_id: tx.id, account_id: omnibus_btc.id, currency: :BTC, direction: :debit, amount: total_customer_sats, created_at: now}
+      omnibus_entry = %{transaction_id: tx.id, account_id: omnibus_btc.id, currency: :BTC, direction: :debit, amount: total_customer_sats, created_at: now}
 
       # Treasury Funding
       treasury_funding = 5_000_000_000
-      treasury_entry = %{id: Ecto.UUID.generate(), transaction_id: tx.id, account_id: treasury_btc.id, currency: :BTC, direction: :debit, amount: treasury_funding, created_at: now}
-      fee_entry = %{id: Ecto.UUID.generate(), transaction_id: tx.id, account_id: fee_escrow_btc.id, currency: :BTC, direction: :credit, amount: treasury_funding, created_at: now}
+      treasury_entry = %{transaction_id: tx.id, account_id: treasury_btc.id, currency: :BTC, direction: :debit, amount: treasury_funding, created_at: now}
+      fee_entry = %{transaction_id: tx.id, account_id: fee_escrow_btc.id, currency: :BTC, direction: :credit, amount: treasury_funding, created_at: now}
 
       all_entries = [omnibus_entry, treasury_entry, fee_entry | cust_entries]
       Repo.insert_all(LedgerEntry, all_entries)

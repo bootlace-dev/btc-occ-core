@@ -1,9 +1,9 @@
 defmodule OccLedger.LedgerEntry do
   use Ecto.Schema
 
-  @primary_key {:id, :binary_id, autogenerate: true}
+  @primary_key {:id, :integer, autogenerate: false}
   schema "ledger_entries" do
-    field :transaction_id, :binary_id
+    field :transaction_id, :integer
     field :account_id, :binary_id
     field :currency, Ecto.Enum, values: [:USD, :BTC, :SATS]
     field :direction, Ecto.Enum, values: [:debit, :credit]
